@@ -1,13 +1,4 @@
----
-title: "Snake Xenzia Revival:  Recreation of Nokia's Iconic Arcade Classic"
-author: "Providence (Thusa) Thusabantu and Munyaradzi (Munya) Masvaure"
-date: "2026-04-26"
-format: 
-  html:
-    toc: true
-    toc-depth: 2
-    number-sections: true
-***
+## "Snake Xenzia Revival:  Recreation of Nokia's Iconic Arcade Classic"
 
 ## Team Members
 
