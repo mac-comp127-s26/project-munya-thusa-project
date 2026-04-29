@@ -1,88 +1,132 @@
+import edu.macalester.graphics.GraphicsGroup;
 import edu.macalester.graphics.Rectangle;
+
 import java.awt.Color;
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
+
+
+// Snake class:
+// stores body parts
+// moves snake
+// grows when eating apple
 
 public class Snake {
-    private LinkedList<Rectangle> body;
 
-    // Current movement direction of the snake
-    private Direction direction = Direction.RIGHT;
+    private List<Rectangle> body;
+    private char direction = 'R';
 
-    // Size of each grid cell 
-    private double cellSize;
+    private GraphicsGroup layer;
 
-    public Snake(double startX, double startY, double cellSize) {
-        this.cellSize = cellSize;
-        body = new LinkedList<>();
+    private static final int SIZE = 20;
 
-        // Initialize snake with a single head segment
-        body.add(createSegment(startX, startY, true));
-    }
+    private static final int SCREEN_WIDTH = 800;
+    private static final int SCREEN_HEIGHT = 600;
 
-    private Rectangle createSegment(double x, double y, boolean isHead) {
-        Rectangle r = new Rectangle(x, y, cellSize, cellSize);
+    public Snake(GraphicsGroup layer) {
 
-        if (isHead) {
-            r.setFillColor(new Color(0, 255, 100));
-        } else {
-            r.setFillColor(new Color(0, 180, 70));
+        this.layer = layer;
+        body = new ArrayList<>();
+
+        // Create initial snake size 5
+        for (int i = 0; i < 5; i++) {
+            Rectangle part = new Rectangle(100 - i * SIZE, 100, SIZE, SIZE);
+            part.setFillColor(Color.GREEN);
+
+            body.add(part);
+            layer.add(part);
         }
-
-        r.setFilled(true);
-        return r;
     }
+
+
+    // Change snake direction
+
+    public void setDirection(char newDirection) {
+        direction = newDirection;
+    }
+
+
+    // public void move() {
+    // // move body 
+    // for (int i = body.size() - 1; i > 0; i--) {
+    // body.get(i).setPosition(
+    // body.get(i - 1).getX(),
+    // body.get(i - 1).getY());
+    // }
+
+    // Rectangle head = body.get(0);
+
+    // // move head
+    // if (direction == 'U') {
+    // head.setPosition(head.getX(), head.getY() - SIZE);
+    // } else if (direction == 'D') {
+    // head.setPosition(head.getX(), head.getY() + SIZE);
+    // } else if (direction == 'L') {
+    // head.setPosition(head.getX() - SIZE, head.getY());
+    // } else if (direction == 'R') {
+    // head.setPosition(head.getX() + SIZE, head.getY());
+    // }
+    // }
 
     public void move() {
-        Rectangle head = body.getFirst();
-        double x = head.getX();
-        double y = head.getY();
 
-        // mvt/direction 
-        switch (direction) {
-            case UP -> y -= cellSize;
-            case DOWN -> y += cellSize;
-            case LEFT -> x -= cellSize;
-            case RIGHT -> x += cellSize;
+        Rectangle head = body.get(0);
+
+        double newX = head.getX();
+        double newY = head.getY();
+
+        // calculate next position
+        if (direction == 'U') {
+            newY -= SIZE;
+        } else if (direction == 'D') {
+            newY += SIZE;
+        } else if (direction == 'L') {
+            newX -= SIZE;
+        } else if (direction == 'R') {
+            newX += SIZE;
         }
 
-        Rectangle newHead = createSegment(x, y, true);
-        body.addFirst(newHead);
-
-        if (body.size() > 1) {
-            body.get(1).setFillColor(new Color(0, 180, 70));
+        // boundary check 
+        if (newX < 0 || newX >= SCREEN_WIDTH ||
+            newY < 0 || newY >= SCREEN_HEIGHT) {
+            return; 
         }
 
-        body.removeLast();
-    }
-
-    public void grow() {
-        Rectangle tail = body.getLast();
-
-        // Adds a new segment at the tail 
-        body.addLast(createSegment(tail.getX(), tail.getY(), false));
-    }
-
-    public boolean checkSelfCollision() {
-        var head = body.getFirst().getBounds();
-
-        // Check if head intersects any other segment
-        for (int i = 1; i < body.size(); i++) {
-            if (head.intersects(body.get(i).getBounds())) {
-                return true;
-            }
+        for (int i = body.size() - 1; i > 0; i--) {
+            body.get(i).setPosition(
+                body.get(i - 1).getX(),
+                body.get(i - 1).getY());
         }
-        return false;
+
+        head.setPosition(newX, newY);
     }
 
-    public void setDirection(Direction dir) {
-        this.direction = dir;
+    public void checkCollisionWithApple(Apple apple) {
+
+        Rectangle head = body.get(0);
+
+        if (head.getX() == apple.getX() &&
+            head.getY() == apple.getY()) {
+
+            grow();
+            apple.relocate();
+        }
     }
 
-    public LinkedList<Rectangle> getBody() {
-        return body;
-    }
 
-    public Rectangle getHead() {
-        return body.getFirst();
+    private void grow() {
+
+        Rectangle tail = body.get(body.size() - 1);
+
+        Rectangle newPart = new Rectangle(
+            tail.getX(),
+            tail.getY(),
+            SIZE,
+            SIZE);
+
+        newPart.setFillColor(Color.GREEN);
+
+        body.add(newPart);
+        layer.add(newPart);
     }
 }
