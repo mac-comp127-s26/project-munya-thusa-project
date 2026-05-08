@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 // Snake class:
 // stores body parts
 // moves snake
@@ -217,5 +218,13 @@ public class Snake {
             tongue.setPosition(x + SIZE / 2, y + SIZE);
 
         }
+    }
+
+    public double getHeadX() {
+        return body.get(0).getX();
+    }
+
+    public double getHeadY() {
+        return body.get(0).getY();
     }
 }

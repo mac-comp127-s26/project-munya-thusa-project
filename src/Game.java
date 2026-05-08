@@ -6,7 +6,6 @@ import edu.macalester.graphics.GraphicsText;
 import java.awt.Color;
 
 
-
 // Game class controls; create window, create snake and apple handling keyboard input, running game
 // loop
 
@@ -33,12 +32,18 @@ public class Game {
     private static final int tileSize = 20;
 
     private Key key;
+    private Music music;
+    private Obstacle obstacle;
 
 
     public Game() {
 
         // Create game window
         canvas = new CanvasWindow("Snake Game", 800, 600);
+
+        // start music
+        music = new Music("res/music.wav");
+        music.play();
 
         // Group for all graphics
         layer = new GraphicsGroup();
@@ -48,6 +53,7 @@ public class Game {
         // Create game objects
         snake = new Snake(layer);
         apple = new Apple(layer);
+        obstacle = new Obstacle(layer);
 
         scoreText = new GraphicsText("Score: 0");
         scoreText.setPosition(10, 20);
@@ -93,20 +99,19 @@ public class Game {
             // System.out.println("setupKeys is running");
             if (!running) {
 
-            if (key == Key.RETURN_OR_ENTER) {
-                restartGame();
-            } else if (key == Key.ESCAPE) {
-                canvas.closeWindow();
-            }
+                if (key == Key.RETURN_OR_ENTER) {
+                    restartGame();
+                } else if (key == Key.ESCAPE) {
+                    canvas.closeWindow();
+                }
 
-            return;
-        }
+                return;
+            }
         });
     }
 
 
-    
-    //  Simple game loop using animate()
+    // Simple game loop using animate()
     private void runGame() {
         canvas.animate(() -> {
 
@@ -119,20 +124,41 @@ public class Game {
                 if (!snake.move()) {
                     endGame();
                 }
+                if (obstacle.checkCollision(
+                    snake.getHeadX(),
+                    snake.getHeadY())) {
+
+                    endGame();
+                }
+
                 // snake.checkCollisionWithApple(apple);
                 if (snake.checkCollisionWithApple(apple)) {
                     score += 10;
+
                     scoreText.setText("Score: " + score);
+
+                    // obstacles appear at score 50
+                    if (score == 50) {
+                        obstacle.generateObstacles(5);
+                    }
+
+                    // obstacles double at score 150
+                    if (score == 150) {
+                        obstacle.generateObstacles(10);
+                    }
+
                 }
                 frameCounter = 0;
             }
 
-            apple.draw(); 
+            apple.draw();
         });
+
     }
 
     private void endGame() {
         running = false;
+        music.stop();
         showGameOverScreen();
     }
 
@@ -201,9 +227,13 @@ public class Game {
         // redraw background
         drawBackground();
 
+        // restart music
+        music.play();
+
         // recreate objects
         snake = new Snake(layer);
         apple = new Apple(layer);
+        obstacle = new Obstacle(layer);
 
         // reset score display
         scoreText = new GraphicsText("Score: 0");
@@ -213,6 +243,4 @@ public class Game {
 
         layer.add(scoreText);
     }
-
-
 }
