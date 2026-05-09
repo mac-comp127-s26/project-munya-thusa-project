@@ -9,7 +9,7 @@
 
 ## Short Project Description
 
-Inspiration: Snake Xenzia is a iconic,arcade game originating from Nokia mobile phones, where players navigate a growing snake to consume food items while avoiding walls and the snake's own tail. The goal is to maximize the score by growing the longest snake possible at increasingly faster speeds
+Inspiration: Snake Xenzia is a iconic arcade game originating from Nokia mobile phones, where players navigate a growing snake to consume food items while avoiding walls and the snake's own tail. The goal is to maximize the score by growing the longest snake possible at increasingly faster speeds
 
 **Snake Xenzia Revival** recreates the legendary Nokia Snake game where players control a growing snake that eats food pellets while avoiding walls and self-collision, with speed increasing as the snake grows longer for maximum score.
 
@@ -18,7 +18,7 @@ Inspiration: Snake Xenzia is a iconic,arcade game originating from Nokia mobile 
 ## Anticipated Areas of Practice and Growth 
 
 - **Nostalgia Factor**: Snake Xenzia defined mobile gaming for a generation—50+ million Nokia phones shipped with it
-- **Perfect Learning Project**: Teaches game loops, collision detection, event handling, and data structures in accessible Python
+- **Perfect Learning Project**: Teaches game loops, collision detection, event handling, and data structures in accessible Java
 - **Technical Merit**: Real-time input processing and 60 FPS rendering demonstrate core programming proficiency
 - **Portfolio Quality**: Polished, playable game showcases both coding skills and UI/UX understanding
 - **Universal Appeal**: Simple to learn, impossible to master—perfect for demoing to any audience
@@ -29,11 +29,11 @@ Inspiration: Snake Xenzia is a iconic,arcade game originating from Nokia mobile 
 
 | Component | Technologies | Key Challenges |
 |-----------|--------------|---------------|
-| **Game Loop** | `pygame`, 60 FPS timer | Smooth animation, responsive controls |
+| **Game Loop** | 60 FPS timer | Smooth animation, responsive controls |
 | **Snake Movement** | List/deque of (x,y) coordinates | Efficient body tracking, collision with self |
 | **Collision Detection** | Rectangle overlap checks | Walls, self, food boundaries |
 | **Food Generation** | Random spawn in free space | Avoid spawning on snake body |
-| **UI/Scoring** | Pygame fonts, sprites | High score persistence to file |
+| **UI/Scoring** | Java fonts, sprites | High score persistence to file |
 | **Controls** | Arrow keys/WASD | Real-time input without lag |
 
 
@@ -65,7 +65,7 @@ Inspiration: Snake Xenzia is a iconic,arcade game originating from Nokia mobile 
 ### Phase 1: Core Mechanics (Week 1)
 | Task | Due Date | Lead |
 |------|----------|------|
-| Set up pygame environment & game window | Apr 28 | Thusa |
+| Set up java game environment & game window | Apr 28 | Thusa |
 | Implement basic snake movement | Apr 29 | Thusa |
 | Add food generation & eating | Apr 30 | Thusa |
 
@@ -89,4 +89,8 @@ Inspiration: Snake Xenzia is a iconic,arcade game originating from Nokia mobile 
 | Playtesting & bug fixes | May 8 | Munya |
 | README with screenshots | May 9 | Thusa |
 | Demo video recording | May 10 | Thusa |
+
+## Prototype Image
+
+<iframe src="https://drive.google.com/file/d/1wgDeqo8DS0eSyDUgK8KahLvkBSfC4Q6v/preview" width="640" height="480"></iframe>
 
